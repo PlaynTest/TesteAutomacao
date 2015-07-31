@@ -2,60 +2,27 @@
 Funcionalidade: Buscar produtos em estoque
 	Como um usuário
 	Eu quero buscar em um site específico
-	Para que eu veja resultados 
+	Para que eu veja resultados de estoque
 
-Cenario: Resultados são exibidos
-	Dado a página "http://www.walmart.com.br" estar aberta
-	Quando eu procurar por "tv"
-	Então deverá ser exibida uma lista de produtos cuja descrição contenha a palavra "tv"
+	Cenario: Exibir resultados
+		Dado a página "http://www.walmart.com.br" estar aberta
+		Quando eu procurar por "tv"
+		Então deverá ser exibida uma lista de produtos cuja descrição contenha a palavra "tv"
+		E verificar que pelo menos um registro tenha sido exibido buscando pela palavra "tv"
 
-Cenario: Resultados são exibidos
-	Dado a página "http://www.walmart.com.br" estar aberta
-	Quando eu procurar por "tv"
-	Então deverá ser exibida uma lista de produtos cuja descrição contenha a palavra "tv"
+	Cenario: Acessar a página de um item exibido do estoque
+		Dado a busca por "tv" executada
+		Quando clicar em um dos itens exibidos pelo resultado da busca
+		Então deverá ser exibida a página com informações sobre o item clicado
+		
+	Cenario: Adicionar item ao carrinho
+		Dado a exibição da página com as informações do item de estoque escolhido
+		Quando clicar no botão "Adicionar ao carrinho"
+		Então deverá ser contabilizado a quantidade do item escolhido igual a 1
+		E deverá ser subtraído 1 item do mesmo produto do estoque
+		E deverá ser mostrado o valor a ser pago pelo item adicionado
 
-
-
-/* API dos Correios - Features número 2 */
-
-Funcionalidade: Exibir dados referente a um CEP válido
-	Como um usuário
-	Eu quero buscar informações complementares de um CEP válido
-	Usando a API dos Correios
-	Para que eu veja as informações complementares do CEP informado
-
-Cenario: Dados extras de um CEP válido
-	Dado a página "http://cep.correiocontrol.com.br/<CEP>.json" estar aberta
-	Onde para a variável <CEP> será atribuída um CEP válido (13255718)
-	Será exibido dados complementares do CEP ({"bairro": "Loteamento Itatiba Park", "logradouro": "Rua Guilhermino Pereira", "cep": "13255718", "uf": "SP", "localidade": "Itatiba"})
-
-Funcionalidade: Exibir mensagem de erro para um CEP inválido
-	Como um usuário
-	Eu quero verificar se é retornada uma mensagem de erro para CEPs inválidos
-	Usando a API dos Correios
-	Para que certificar que há tratamento de CEPs na API
-
-Cenario: Mensagem de erro para CEP inválido
-	Dado a página "http://cep.correiocontrol.com.br/<CEP>.json" estar aberta
-	Onde para a variável <CEP> será atribuída um CEP inválido (02358987)
-	Será exibida a mensagem de erro (correiocontrolcep({"erro":true});)
-
-Cenario: Mensagem de erro para padrão inválido de formato de CEP com menos dígitos
-	Dado a página "http://cep.correiocontrol.com.br/<CEP>.json" estar aberta
-	Onde para a variável <CEP> será atribuída um CEP com menos de 8 dígitos (01528)
-	Será exibida a mensagem de erro (correiocontrolcep({"erro":true});)
-
-Cenario: Mensagem de erro para padrão inválido de formato de CEP com letras
-	Dado a página "http://cep.correiocontrol.com.br/<CEP>.json" estar aberta
-	Onde para a variável <CEP> será atribuída um CEP com menos de 8 dígitos (0a15b187)
-	Será exibida a mensagem de erro (correiocontrolcep({"erro":true});)
-
-Cenario: Mensagem de erro para padrão inválido de formato de CEP com hífen
-	Dado a página "http://cep.correiocontrol.com.br/<CEP>.json" estar aberta
-	Onde para a variável <CEP> será atribuída um CEP com menos de 8 dígitos (01528-010)
-	Será exibida a mensagem de erro (correiocontrolcep({"erro":true});)
-
-Cenario: Mensagem de erro para CEP em branco
-	Dado a página "http://cep.correiocontrol.com.br/<CEP>.json" estar aberta
-	Onde para a variável <CEP> não será atribuída um CEP
-	Será exibida a mensagem de erro (correiocontrolcep({"erro":true});)
+	Cenario: Verificar que o item escolhido esteja no carrinho
+		Dado a inclus~ao de um item de produtos do estoque ao carrinho
+		Quando clicar no botão "Abrir carrinho"
+		Então deverá exibido a lista de itens adicionados ao carrinho, neste caso 1 item do produto "tv"
